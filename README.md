@@ -16,7 +16,7 @@ Doğrulanmış Yanıtlar: Sistemin performansı akademik Ragas framework'ü ile 
 
 
     A[Kullanıcı Sorusu] --> B{Intent Classifier}
-    B -- "Genel Sohbet" --> C[Gemini 1.5 Flash]
+    B -- "Genel Sohbet" --> C[Gemini]
     B -- "Döküman Sorgusu" --> D[RAG PDF Modülü]
     B -- "Veri Analizi" --> E[Data Agent CSV]
     
@@ -46,6 +46,7 @@ Sistemin güvenilirliği, dökümana sadakat ve bilgi getirme başarısı üzeri
 Metrik	Skor	Açıklama
 Faithfulness	1.00	Modelin döküman dışına çıkmadığını ve uydurma bilgi üretmediğini kanıtlar.
 Context Recall	1.00	Aranan bilginin döküman içerisinde %100 başarıyla bulunduğunu gösterir.
+
 🛠️ Kurulum ve Çalıştırma
 Gereksinimleri Yükleyin:
 
