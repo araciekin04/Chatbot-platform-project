@@ -5,13 +5,13 @@ from data_agent import create_data_agent
 
 # ---------- SAYFA AYARLARI ----------
 st.set_page_config(
-    page_title="EA Dizi Platformu Chatbot",
+    page_title="🎬EA Dizi Platformu Chatbot",
     page_icon="🎬​",
     layout="centered"
 )
 
 # ---------- BAŞLIK ----------
-st.title("EA Dizi Platformu Chatbot")
+st.title("🎬​EA Dizi Platformu Chatbot🎬​")
 st.write("**Üyelik Bilgileri** veya **Diziler** hakkında soru sor!")
 
 # ---------- SİSTEMLERİ YÜKLE ----------

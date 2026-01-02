@@ -5,7 +5,7 @@ from datasets import Dataset
 from ragas import evaluate
 from ragas.metrics import _faithfulness, _context_recall
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_huggingface import HuggingFaceEmbeddings # HuggingFace için bunu ekledik
+from langchain_huggingface import HuggingFaceEmbeddings 
 from rag_pdf import create_pdf_rag
 
 # 1. MODELLERİ HAZIRLA
@@ -17,7 +17,7 @@ gemini_llm = ChatGoogleGenerativeAI(
 )
 
 # Embedding modeli (PDF'i okurken kullandığın HuggingFace modelinin aynısı olmalı!)
-# EĞER MODEL İSMİN FARKLIYSA BURAYI DEĞİŞTİR:
+
 hf_model_name = "sentence-transformers/all-MiniLM-L6-v2" 
 hf_embeddings = HuggingFaceEmbeddings(model_name=hf_model_name)
 
@@ -32,11 +32,11 @@ questions = [
     "Ücret iadesi hangi durumlarda yapılır?"
 ]
 
-# BURASI ÖNEMLİ: Manuel olarak gerçek cevapları ekliyoruz ki Recall 0 çıkmasın
+
 ground_truths = [
     "Üyelik tipleri Standart Üyelik, Plus Üyelik ve Premium Üyelik.",
-    "Standart üyelik ücreti aylık 70 TL'dir.", # PDF'indeki gerçek rakamı yaz
-    "Premium üyelikte aynı anda 4 ekran izlenebilir.", # PDF'indeki gerçek rakamı yaz
+    "Standart üyelik ücreti aylık 70 TL'dir.", 
+    "Premium üyelikte aynı anda 4 ekran izlenebilir.", 
     "Hayır. Kullanılmış üyelik süresi için herhangi bir ücret iadesi yapılmaz.",
     "Sistemsel hata durumunda ücret iadesi yapılır."
 ]
@@ -51,9 +51,9 @@ for i, q in enumerate(questions):
         "question": q,
         "answer": result["result"],
         "contexts": [doc.page_content for doc in result["source_documents"]],
-        "ground_truth": ground_truths[i] # Gerçek cevapları buradan alıyor
+        "ground_truth": ground_truths[i] 
     })
-    time.sleep(2) # Kota dostu bekleme
+    time.sleep(2) 
 
 dataset = Dataset.from_list(data)
 
@@ -63,12 +63,10 @@ results = evaluate(
     dataset=dataset,
     metrics=[_faithfulness, _context_recall],
     llm=gemini_llm,
-    embeddings=hf_embeddings # Gemini yerine HuggingFace verdik!
+    embeddings=hf_embeddings 
 )
 
 # 4. RAPORLAMA
 print("\n--- TEST SONUÇLARI ---")
 print(results)
 
-# Sonuçları Excel'e kaydetmek istersen:
-results.to_pandas().to_excel("ragas_raporu.xlsx")

@@ -22,9 +22,19 @@ while True:
     intent = detect_intent(question)
     print(f"🔍 Intent: {intent}")
 
-    if intent in DATA_INTENTS:
-        result = data_agent.invoke({"input": question})
-        print(f"✅ Cevap: {result['output']}\n")
-    else:
-        result = pdf_qa.invoke({"query": question})
-        print(f"✅ Cevap: {result['result']}\n")
+    turkish_question = question + " (Lütfen bu soruyu TÜRKÇE cevapla ve döküman dışına çıkma.)"
+
+    try:
+        if intent in DATA_INTENTS:
+            # Data Agent kısmı
+            result = data_agent.invoke({"input": turkish_question})
+            
+            output = result['output'] if isinstance(result, dict) else result
+            print(f"✅ Cevap: {output}\n")
+        else:
+            # RAG PDF tarafı
+            result = pdf_qa.invoke({"query": turkish_question})
+            output = result['result'] if isinstance(result, dict) else result
+            print(f"✅ Cevap: {output}\n")
+    except Exception as e:
+        print(f"⚠️ Bir hata oluştu, lütfen tekrar dene.")
